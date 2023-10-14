@@ -1,7 +1,20 @@
-import { Application } from "./application/app";
-
+import { Application } from './application/app';
+import { PORT, MONGODB_URI } from './application/configuration/environment';
 const webScrapperApp: Application = new Application();
+import { connect } from 'mongoose';
 
-webScrapperApp.getApplication().listen(4000, () => {
-    console.log('Web scraper Server listening on port ', 3000);
-})
+async function run() {
+  try {
+    if (MONGODB_URI) {
+      await connect(MONGODB_URI);
+      console.log('Database initialized');
+    }
+    webScrapperApp
+      .getApplication()
+      .listen(PORT, () => console.log('Web scraper server listening on port', PORT));
+  } catch (error) {
+    console.error('Error initializing server', error);
+  }
+}
+
+run();
