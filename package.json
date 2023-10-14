@@ -6,16 +6,18 @@
   "author": "Facundo Rodriguez",
   "license": "ISC",
   "scripts": {
+    "start": "node --experimental-worker build/server.js",
     "start:dev": "ts-node-dev ./src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p .",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
   },
   "devDependencies": {
     "@types/express": "^4.17.19",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
-    "eslint": "^8.51.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.1.0"
+    "eslint": "^8.51.0"
   },
   "dependencies": {
     "express": "^4.18.2",
