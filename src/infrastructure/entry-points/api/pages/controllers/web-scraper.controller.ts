@@ -15,13 +15,13 @@ export class WebScraperController {
   constructor(
     @Adapter(SCRAP_PAGE_SERVICE) private readonly scrapService: ScrapPageService,
     @Adapter(VALIDATIONS_REPOSITORY) private readonly validator: IValidationsRepository,
-  ) {}
+  ) { }
 
   @Post()
   @Auth()
   async webScraper(@Body() data: WebScraperRequest): Promise<Page | HttpException> {
     try {
-      const toValidate: string[] = ['user', 'name', 'link'];
+      const toValidate: string[] = ['name', 'link'];
       const validation = this.validator.validation(data, toValidate);
       if (!validation?.isValid && validation?.errors)
         return new HttpException(validation.errors, 400);
