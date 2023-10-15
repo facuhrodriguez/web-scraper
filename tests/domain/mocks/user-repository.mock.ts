@@ -22,8 +22,6 @@ export const validUser: User = {
 
 export class UserRepositoryMock implements IGetUserRepository, IAddUserRepository {
 
-
-
     addUserRepository(data: RegisterUserParams): Promise<User> {
         const newUser: User = {
             ...data

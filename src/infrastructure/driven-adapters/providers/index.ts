@@ -4,18 +4,31 @@ import {
   HASH_REPOSITORY,
   VERIFY_USER_REPOSITORY,
   ENCRYPTER,
+  ADD_PAGE_REPOSITORY,
+  GET_PAGE_REPOSITORY,
+  VALIDATIONS_REPOSITORY,
 } from '@/domain/models';
 import {
   LoginUserService,
   LOGIN_SERVICE,
   REGISTER_SERVICE,
   RegisterUserService,
+  SCRAP_PAGE_SERVICE,
+  ScrapPageService,
+  GET_PAGES_SERVICE,
+  GetPageService,
+  GetPagesService,
+  GET_PAGE_SERVICE,
 } from '@/domain/use-cases';
 import {
   UserMongooseRepository,
   BCryptAdapter,
   JWTAdapter,
+  PageMongooseRepository,
 } from '@/infrastructure/driven-adapters';
+import { AxiosAdapter } from '../adapters/axios.adapter';
+import { HTTP_CLIENT } from '@/domain/models/gateways/httpClients';
+import { ValidatorAdapter } from '../adapters/validator.adapter';
 
 export const adapters = [
   {
@@ -38,6 +51,22 @@ export const adapters = [
     provide: ENCRYPTER,
     useClass: JWTAdapter,
   },
+  {
+    provide: ADD_PAGE_REPOSITORY,
+    useClass: PageMongooseRepository,
+  },
+  {
+    provide: GET_PAGE_REPOSITORY,
+    useClass: PageMongooseRepository,
+  },
+  {
+    provide: HTTP_CLIENT,
+    useClass: AxiosAdapter,
+  },
+  {
+    provide: VALIDATIONS_REPOSITORY,
+    useClass: ValidatorAdapter,
+  },
 ];
 
 export const services = [
@@ -48,5 +77,17 @@ export const services = [
   {
     provide: REGISTER_SERVICE,
     useClass: RegisterUserService,
+  },
+  {
+    provide: SCRAP_PAGE_SERVICE,
+    useClass: ScrapPageService,
+  },
+  {
+    provide: GET_PAGES_SERVICE,
+    useClass: GetPagesService,
+  },
+  {
+    provide: GET_PAGE_SERVICE,
+    useClass: GetPageService,
   },
 ];

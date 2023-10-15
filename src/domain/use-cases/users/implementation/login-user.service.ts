@@ -10,6 +10,7 @@ import {
   IEncrypt,
   IncorrectUserPassword,
   UserLogin,
+  UserPayload,
 } from '@/domain/models';
 import { Adapter } from '@tsclean/core';
 import { ILoginUser } from '@/domain/use-cases';
@@ -34,14 +35,15 @@ export class LoginUserService implements ILoginUser {
 
     if (!isValidPassword) throw new IncorrectUserPassword(`Invalid user password`);
 
-    const userPayload = {
+    const userPayload: UserPayload = {
       user: {
         userName: userExists.userName,
+        userId: userExists._id,
       },
     };
 
     const userToken: string = this.encrypter.encrypt(userPayload);
 
-    return { accessToken: userToken, userName: userExists.userName };
+    return { accessToken: userToken, userName: userExists.userName, userId: userExists._id };
   }
 }

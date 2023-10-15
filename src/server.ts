@@ -1,5 +1,6 @@
 import Helmet from 'helmet';
 import { StartProjectInit } from '@tsclean/core';
+import 'module-alias/register';
 
 import { AppContainer } from './application/app';
 import { PORT } from '@/application/configuration/environment';
