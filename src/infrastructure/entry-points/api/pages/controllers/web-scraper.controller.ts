@@ -15,7 +15,7 @@ export class WebScraperController {
   constructor(
     @Adapter(SCRAP_PAGE_SERVICE) private readonly scrapService: ScrapPageService,
     @Adapter(VALIDATIONS_REPOSITORY) private readonly validator: IValidationsRepository,
-  ) { }
+  ) {}
 
   @Post()
   @Auth()
