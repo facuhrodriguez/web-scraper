@@ -18,6 +18,7 @@ export class UserMongooseRepository implements IAddUserRepository, IGetUserRepos
     return Object.assign(
       {},
       {
+        _id: data._id,
         userName,
         password,
         createdAt,
