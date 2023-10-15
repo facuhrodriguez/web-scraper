@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    container_name: webscraper-db
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-db:/data/db
+      - mongo-configdb:/data/configdb
+  web-scraper:
+    container_name: webscraper-api
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mongo
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - MONGO_URI_DEVELOPMENT=mongodb://mongo:27017/web-scraper
+volumes:
+  mongo-db:
+  mongo-configdb:
