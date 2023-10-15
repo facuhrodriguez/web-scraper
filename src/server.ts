@@ -1,7 +1,18 @@
-import { Application } from "./application/app";
+import Helmet from 'helmet';
+import { StartProjectInit } from '@tsclean/core';
 
-const webScrapperApp: Application = new Application();
+import { AppContainer } from './application/app';
+import { PORT } from '@/application/configuration/environment';
 
-webScrapperApp.getApplication().listen(4000, () => {
-    console.log('Web scraper Server listening on port ', 3000);
-})
+async function run(): Promise<void> {
+  try {
+    await AppContainer.initialize();
+    const app = await StartProjectInit.create(AppContainer);
+    app.use(Helmet());
+    await app.listen(PORT, () => console.log('WebScraper API running on port: ' + PORT));
+  } catch (error) {
+    console.error('Error initializing server');
+  }
+}
+
+run();
