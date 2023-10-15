@@ -10,4 +10,5 @@ module.exports = {
   preset: 'ts-jest',
   modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths /*, { prefix: '<rootDir>/' } */),
+  modulePathIgnorePatterns: ['<rootDir>/build/'],
 };

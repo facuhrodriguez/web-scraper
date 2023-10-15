@@ -1,4 +1,4 @@
-import { RegisterUserParams, User, UserAlreadyExistsError } from '@/domain/models';
+import { RegisterUserParams, User } from '@/domain/models';
 export interface IRegisterUser {
-  register: (user: RegisterUserParams) => Promise<User | UserAlreadyExistsError>;
+  register: (user: RegisterUserParams) => Promise<User>;
 }

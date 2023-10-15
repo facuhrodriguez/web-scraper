@@ -2,8 +2,22 @@ import { IAddUserRepository, IGetUserRepository, RegisterUserParams, User } from
 
 export const userAlreadyExist: User = {
     password: 'password123',
-    userName: 'facundo.rodriguez1@gmail.com',
-    _id: '123',
+    userName: 'rodriguezfacundohernan@gmail.com',
+}
+
+export const invalidUserPassword: User = {
+    password: 'passwordInvalid',
+    userName: 'rodriguezfacundohernan@gmail.com',
+}
+
+export const notExistingUser: User = {
+    password: 'password123',
+    userName: 'usernotexist@gmail.com',
+}
+
+export const validUser: User = {
+    password: 'password123',
+    userName: 'rodriguezfacundohernan@gmail.com',
 }
 
 export class UserRepositoryMock implements IGetUserRepository, IAddUserRepository {
@@ -12,7 +26,6 @@ export class UserRepositoryMock implements IGetUserRepository, IAddUserRepositor
 
     addUserRepository(data: RegisterUserParams): Promise<User> {
         const newUser: User = {
-            _id: '1234',
             ...data
         }
         return Promise.resolve(newUser);

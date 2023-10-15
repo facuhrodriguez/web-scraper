@@ -1,8 +1,8 @@
-import { RegisterUserParams, RegisterUserService, User, UserAlreadyExistsError } from '../../../src/domain';
-import { HashMock } from '../mocks/hash.mock';
-import { UserRepositoryMock, userAlreadyExist } from '../mocks/user-repository.mock';
+import { RegisterUserParams, RegisterUserService, User, UserAlreadyExistsError } from "../../../../src/domain";
+import { HashMock } from '../../mocks/hash.mock';
+import { UserRepositoryMock, userAlreadyExist } from '../../mocks/user-repository.mock';
 
-describe('Case use: Register User', () => {
+describe('Use case: Register User', () => {
     const hashMock = new HashMock();
     const userRepositoryMock = new UserRepositoryMock();
     const registerUser = new RegisterUserService(hashMock, userRepositoryMock, userRepositoryMock);

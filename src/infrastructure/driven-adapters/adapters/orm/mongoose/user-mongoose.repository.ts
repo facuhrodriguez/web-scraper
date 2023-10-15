@@ -14,11 +14,10 @@ export class UserMongooseRepository implements IAddUserRepository, IGetUserRepos
   }
 
   private map(data: User): User {
-    const { _id, userName, password, createdAt } = data;
+    const { userName, password, createdAt } = data;
     return Object.assign(
       {},
       {
-        _id: _id.toString(),
         userName,
         password,
         createdAt,
