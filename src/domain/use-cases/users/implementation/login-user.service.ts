@@ -1,25 +1,30 @@
 import {
-  ICheckEmailRepository,
+  UserAuthenticated,
+  User,
+  IGetUserRepository,
+  UserNotExist,
   VERIFY_USER_REPOSITORY,
-} from '@/domain/models/gateways/users/verify-user-exist.repository';
-import { User } from '@/domain/models/user';
-import { UserAuthenticated } from '@/domain/models/user-authenticated';
+  HASH_COMPARE_REPOSITORY,
+  IHashCompare,
+  ENCRYPTER,
+  IEncrypt,
+  IncorrectUserPassword,
+} from '@/domain/models';
 import { Adapter } from '@tsclean/core';
-import { ILoginUser } from '@/domain/use-cases/users/login-user-service';
-import { UserNotExist } from '@/domain/models/gateways/users/errors/user-not-exist';
-import { HASH_COMPARE_REPOSITORY, IHashCompare } from '@/domain/models/gateways/hash-compare';
-import { ENCRYPTER, IEncrypt } from '@/domain/models/gateways/encrypter';
-import { IncorrectUserPassword } from '@/domain/models/gateways/users/errors/incorrect-password.error';
+import { ILoginUser } from '@/domain/use-cases';
+import {} from '@/domain/models/gateways/users/errors/incorrect-password.error';
+export const LOGIN_SERVICE = 'LOGIN_SERVICE';
 
 export class LoginUserService implements ILoginUser {
   constructor(
-    @Adapter(VERIFY_USER_REPOSITORY) private readonly verifyUser: ICheckEmailRepository,
+    @Adapter(VERIFY_USER_REPOSITORY) private readonly verifyUser: IGetUserRepository,
     @Adapter(HASH_COMPARE_REPOSITORY) private readonly compareHash: IHashCompare,
     @Adapter(ENCRYPTER) private readonly encrypter: IEncrypt,
   ) {}
 
   async login(userToLogin: User): Promise<UserAuthenticated> {
-    const userExists: User = await this.verifyUser.getUserByUsername(userToLogin.userName);
+    const userExists: User | null = await this.verifyUser.getUserByUsername(userToLogin.userName);
+
     if (!userExists) throw new UserNotExist(`User ${userToLogin.userName} does not exist`);
 
     const isValidPassword: boolean = await this.compareHash.compare(
@@ -31,13 +36,13 @@ export class LoginUserService implements ILoginUser {
 
     const userPayload = {
       user: {
-        id: userExists.id,
+        id: userExists._id,
         userName: userExists.userName,
       },
     };
 
     const userToken: string = this.encrypter.encrypt(userPayload);
 
-    return { accessToken: userToken, id: userExists.id, userName: userExists.userName };
+    return { accessToken: userToken, id: userExists._id, userName: userExists.userName };
   }
 }

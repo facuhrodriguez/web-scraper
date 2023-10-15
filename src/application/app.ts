@@ -1,17 +1,7 @@
-import express from 'express';
-import helmet from 'helmet';
+import { Container } from '@tsclean/core';
+import { adapters, services } from '../infrastructure/driven-adapters/providers';
 
-export class Application {
-  private application: express.Application;
-  constructor() {
-    this.application = express();
-  }
-
-  private async initializeConfiguration(): Promise<void> {
-    this.application.use(helmet());
-  }
-
-  public getApplication(): express.Application {
-    return this.application;
-  }
-}
+@Container({
+  providers: [...services, ...adapters],
+})
+export class AppContainer {}

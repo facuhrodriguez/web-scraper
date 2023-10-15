@@ -1,19 +1,19 @@
-import { Application } from './application/app';
-import { PORT, MONGODB_URI } from './application/configuration/environment';
-const webScrapperApp: Application = new Application();
 import { connect } from 'mongoose';
+import Helmet from 'helmet';
+import { StartProjectInit } from '@tsclean/core';
 
-async function run() {
+import { AppContainer } from './application/app';
+import { MONGODB_URI, PORT } from '@/application/configuration/environment';
+
+async function run(): Promise<void> {
   try {
-    if (MONGODB_URI) {
-      await connect(MONGODB_URI);
-      console.log('Database initialized');
-    }
-    webScrapperApp
-      .getApplication()
-      .listen(PORT, () => console.log('Web scraper server listening on port', PORT));
+    if (MONGODB_URI) await connect(MONGODB_URI);
+    console.log('DB Mongo connected');
+    const app = await StartProjectInit.create(AppContainer);
+    app.use(Helmet());
+    await app.listen(PORT, () => console.log('WebScraper API running on port: ' + PORT));
   } catch (error) {
-    console.error('Error initializing server', error);
+    console.error('Error initializing server');
   }
 }
 
